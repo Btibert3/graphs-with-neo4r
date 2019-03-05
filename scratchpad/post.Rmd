@@ -1,0 +1,87 @@
+---
+title: "Graphs with R and Neo4j"
+author: "Brock Tibert"
+date: "3/4/2019"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(comment = NA)
+knitr::opts_chunk$set(tidy = FALSE)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Setup
+
+This post will attempt to use the new [neo4r](https://github.com/neo4j-rstats/neo4r) `R` package and update [Nicole's awesome work](http://nicolewhite.github.io/neo4j-rstats/graphs-r-neo4j/#1) using some of the newer packages out there, namely [rtweet](https://github.com/mkearney/rtweet).
+
+
+## The Data Model
+
+Nicole's data model looking something like this:
+
+![](http://i.imgur.com/W8mzgVZ.png)
+
+
+
+I am going to keep this model for now, but update the data we collect for this post to include the following hashtags:
+
+- neo4j
+- rstats
+- r4ds
+
+
+
+## Get the data from Twitter
+
+First, make sure that you have `rtweet` installed.
+
+```{r eval=FALSE, echo=TRUE}
+install.packages("rtweet")
+```
+
+I won't go into the full details of getting setup with the Twitter API, but if this is your first time playing around, check out [the guide](https://rtweet.info/articles/auth.html) for help getting up and running.
+
+My app is called `BrockTest`, so I am going to auth by loading the package and creating my token:
+
+
+```{r echo=TRUE}
+## load the rtweets package
+library(rtweet)
+
+## auth via web browswer using my app
+token = create_token(
+  app = "BrockTest",
+  consumer_key = Sys.getenv("RTWEET_CONSUMER_KEY"),
+  consumer_secret = Sys.getenv("RTWEET_CONSUMER_SECRET"),
+  access_token = Sys.getenv("RTWEET_ACCESS_TOKEN"),
+  access_secret = Sys.getenv("RTWEET_ACCESS_SECRET"))
+get_token()
+```
+
+
+The only trick above is that I saved the following values to my `.Renviron` file located in my home (~) directory in order to avoid exposing these values. I then used interactive via the web browser method to complete the auth.
+
+>  If you ever want to see what your R session has for environment variables set, you can use `Sys.getenv()`.
+
+Now we simply need to query Twitter's API for tweets with the hashtags for this post.
+
+```{r}
+TAGS = "#rstats OR #r4ds OR #neo4j"
+rt = search_tweets(q = TAGS,
+                   n = 18000,
+                   include_rts = TRUE)
+```
+
+
+
+## Parse into Neo4j
+
+
+
+## Explore
