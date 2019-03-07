@@ -25,7 +25,7 @@ token = create_token(
 ## get the data in a dataframe
 TAGS = "#rstats OR #r4ds OR #neo4j"
 rt = search_tweets(q = TAGS,
-                   n = 100,
+                   n = 18000,
                    include_rts = TRUE)
 dim(rt)
 glimpse(rt)
