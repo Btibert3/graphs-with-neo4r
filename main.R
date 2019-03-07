@@ -172,7 +172,7 @@ load_csv(url = "file:///tags.csv",
 CQL = "
 MERGE (t:Tweet {id: row.status_id})
 MERGE (u:User {id: row.mentions_user_id})
-CREATE (t)-[:MENTIONED]->(u)
+CREATE (t)-[:MENTIONS]->(u)
 "
 load_csv(url = "file:///mentions.csv", 
          on_load = CQL, 
@@ -198,7 +198,7 @@ load_csv(url = "file:///retweet.csv",
 CQL = "
 MERGE (t:Tweet {id: row.status_id})
 MERGE (q:Tweet {id: row.quoted_status_id})
-CREATE (t)-[:QUOTED]->(q)
+CREATE (t)-[:QUOTES]->(q)
 "
 load_csv(url = "file:///quote.csv", 
          on_load = CQL, 
